@@ -1,0 +1,12 @@
+name: inputs-demo
+on:
+  push:
+    branches:
+      - inputs
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test-step
+        run: echo "Hello ${{ inputs.greeting }}"
+
