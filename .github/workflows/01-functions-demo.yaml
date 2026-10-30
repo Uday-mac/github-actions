@@ -24,7 +24,7 @@ env:
 jobs:
   python-flask-build-test:
     runs-on: ubuntu-latest
-    if: ${{ (github.event_name == 'push' && startsWith(github.ref_name, 'main')) || (github.event_name == 'pull_request' &&  github.base_ref = 'main' && !contains(github.event.pull_request.title, 'WIP')) }}
+    if: ${{ (github.event_name == 'push' && startsWith(github.ref_name, 'main')) || (github.event_name == 'pull_request' &&  github.base_ref == 'main' && !contains(github.event.pull_request.title, 'WIP')) }}
 
     steps:
       - name: checkout code
