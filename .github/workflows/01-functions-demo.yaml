@@ -24,7 +24,7 @@ env:
 jobs:
   python-flask-build-test:
     runs-on: ubuntu-latest
-    if: ${{ (github.event_name = 'push' && startsWith(github.ref_name, 'main')) || (github.event_name = 'pull_request' &&  github.base_ref = 'main' && !contains(github.event.pull_request.title, 'WIP')) }}
+    if: ${{ (github.event_name == 'push' && startsWith(github.ref_name, 'main')) || (github.event_name == 'pull_request' &&  github.base_ref = 'main' && !contains(github.event.pull_request.title, 'WIP')) }}
 
     steps:
       - name: checkout code
@@ -51,7 +51,7 @@ jobs:
           docker run -d -p 5000:5000 --name test-flask ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ env.IMAGE_TAG }}
 
       - name: push docker image
-        if: ${{ successs() }}
+        if: ${{ success() }}
         run: |
          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ env.IMAGE_TAG }}
 
