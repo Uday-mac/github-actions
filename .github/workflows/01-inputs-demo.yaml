@@ -8,5 +8,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test-step
-        run: echo "Hello ${{ inputs.greeting }}"
+        run: echo "Hello world"
 
