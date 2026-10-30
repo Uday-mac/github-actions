@@ -7,9 +7,9 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return jsonify({
-        "message": "Hello from flask app, shipped by jenkins, running in docker",
-        "application": "flask-jenkins-app",
-        "hostname": socket.gethostname(),
+        "message": "Welcome cloud with uday",
+        "platform": "Github actions",
+        "runtime": "Docker+flask"
         "version": os.getenv("APP_VERSION", "1.0.0")
     })
 
