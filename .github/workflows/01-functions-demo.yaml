@@ -17,6 +17,7 @@ on:
     types: 
       - opened
       - synchronize
+  workflow_dispatch:
 
 env:
   APPLICATION_NAME: gitactions    
