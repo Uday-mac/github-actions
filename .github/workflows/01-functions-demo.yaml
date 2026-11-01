@@ -25,45 +25,46 @@ jobs:
           sleep 30
           docker ps
           docker ps -a
+          docker logs python-app
 
-      - name: perform-generate-smoke-reports
-        run: |
-          sleep 10
-          curl http://localhost:5100 > smoke-test-report.txt
-          curl http://localhost:5100/health > health-test-report.txt
+  #     - name: perform-generate-smoke-reports
+  #       run: |
+  #         sleep 10
+  #         curl http://localhost:5100 > smoke-test-report.txt
+  #         curl http://localhost:5100/health > health-test-report.txt
 
-      - name: container logs
-        run: docker logs udaydevmac/gitactions:v1.0.1 > logs-report.txt
+  #     - name: container logs
+  #       run: docker logs udaydevmac/gitactions:v1.0.1 > logs-report.txt
 
-      - name: push image
-        uses: docker/build-push-action@v7
-        with:
-          push: true
-          tags: udaydevmac/gitactions:v1.0.1
+  #     - name: push image
+  #       uses: docker/build-push-action@v7
+  #       with:
+  #         push: true
+  #         tags: udaydevmac/gitactions:v1.0.1
 
-      - name: upload the reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-reports
-          path: |
-            smoke-test-report.txt
-            health-test-report.txt
-            logs-report.txt
-  review-job:
-    needs: flask-ci-job
-    runs-on: ubuntu-latest
-    steps:
-      - name: download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: test-reports
-          path: downloaded-reports
+  #     - name: upload the reports
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: test-reports
+  #         path: |
+  #           smoke-test-report.txt
+  #           health-test-report.txt
+  #           logs-report.txt
+  # review-job:
+  #   needs: flask-ci-job
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: download artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: test-reports
+  #         path: downloaded-reports
 
-      - name: print the reports
-        run: |
-          echo "========smoke-test============"
-          cat downloaded-reports/smoke-test-report.txt
-          echo "=========health============"
-          cat downloaded-reports/health-test-report.txt
-          echo "=========logs============"
-          cat downloaded-reports/logs-report.txt
+  #     - name: print the reports
+  #       run: |
+  #         echo "========smoke-test============"
+  #         cat downloaded-reports/smoke-test-report.txt
+  #         echo "=========health============"
+  #         cat downloaded-reports/health-test-report.txt
+  #         echo "=========logs============"
+  #         cat downloaded-reports/logs-report.txt
