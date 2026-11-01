@@ -17,7 +17,7 @@ jobs:
 
       - name: running the application
         run: |
-          docker run -d -p 5000:5000 --name python-app udaydevmac/gitactions:v1.0.1
+          docker run -d -p 5100:5000 --name python-app udaydevmac/gitactions:v1.0.1
       
       - name: checking if the container is running
         if: always()
@@ -28,8 +28,8 @@ jobs:
       - name: perform-generate-smoke-reports
         run: |
           sleep 10
-          curl http://localhost:5000 > smoke-test-report.txt
-          curl http://localhost:5000/health > health-test-report.txt
+          curl http://localhost:5100 > smoke-test-report.txt
+          curl http://localhost:5100/health > health-test-report.txt
 
       - name: container logs
         run: docker logs udaydevmac/gitactions:v1.0.1 > logs-report.txt
