@@ -1,6 +1,6 @@
 name: artifact-ddemo
 on:
- workflow_dispatch:
+  workflow_dispatch:
 jobs:
   flask-ci-job:
     runs-on: ubuntu-latest
