@@ -43,21 +43,21 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ env.VERSION }}
 
       - name: Running QA validation
-        if: ${{ inputs.environment = 'qa' }}
+        if: ${{ inputs.environment == 'qa' }}
         run: |
           echo "running qa validation checks"
           echo "running security validations"
           echo "running performance validations"
 
       - name: login into docker
-        if: ${{ inputs.environment = !'dev' }}
+        if: ${{ inputs.environment == !'dev' }}
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: push the docker image
-        if: ${{ inputs.environment = !'dev' }}
+        if: ${{ inputs.environment == !'dev' }}
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -75,7 +75,7 @@ jobs:
           curl -f http://localhost:5000
 
       - name: deploy to kubernetes
-        if: ${{ inputs.environment = 'prod' }}
+        if: ${{ inputs.environment == 'prod' }}
         run: |
           echo "deploying to k8s"     
       
