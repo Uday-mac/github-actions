@@ -1,7 +1,7 @@
 name: inputs-demo
-on: 
+on:
   workflow_dispatch:
-    inpust:
+    inputs:
       environment:
         description: 'Deployment environment'
         required: true
