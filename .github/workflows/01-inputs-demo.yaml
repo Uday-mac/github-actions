@@ -1,12 +1,85 @@
 name: inputs-demo
-on:
-  push:
-    branches:
-      - inputs
+on: 
+  workflow_dispatch:
+    inpust:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - dev
+        - qa
+        - prod
+
+      perform_smoke_test:
+        description: Test application
+        required: true
+        default: true
+        type: boolean
+env:
+  APPLICATION_NAME: gitactions
+  VERSION: v1.0.0
 jobs:
-  test-job:
+  flask-build-job:
     runs-on: ubuntu-latest
     steps:
-      - name: test-step
-        run: echo "Hello world"
+      - name: checkout
+        uses: actions/checkout@v5
+
+      - name: Display input values
+        run: |
+          echo Environment: ${{ inputs.environment }}
+          echo Smoke test: ${{ inputs.perform_smoke_test }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: build the image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ env.VERSION }}
+
+      - name: Running QA validation
+        if: ${{ inputs.environment = 'qa' }}
+        run: |
+          echo "running qa validation checks"
+          echo "running security validations"
+          echo "running performance validations"
+
+      - name: login into docker
+        if: ${{ inputs.environment = !'dev' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: push the docker image
+        if: ${{ inputs.environment = !'dev' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ env.VERSION }}}
+
+      - name: Run container
+        run: |
+          docker run -d -p 5000:5000 ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ env.VERSION }}
+
+      - name: smoketest
+        if: ${{ inputs.perform_smoke_test }}
+        run: |
+          sleep 5
+          curl -f http://localhost:5000
+
+      - name: deploy to kubernetes
+        if: ${{ inputs.environment = 'prod' }}
+        run: |
+          echo "deploying to k8s"     
+      
+
+
+      
 
