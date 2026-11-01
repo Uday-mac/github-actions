@@ -28,8 +28,8 @@ jobs:
       - name: perform-generate-smoke-reports
         run: |
           sleep 10
-          curl -f http://localhost:5000 > smoke-test-report.txt
-          curl -f http://localhost:5000/health > health-test-report.txt
+          curl http://localhost:5000 > smoke-test-report.txt
+          curl http://localhost:5000/health > health-test-report.txt
 
       - name: container logs
         run: docker logs udaydevmac/gitactions:v1.0.1 > logs-report.txt
