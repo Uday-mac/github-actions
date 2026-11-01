@@ -22,6 +22,7 @@ jobs:
       - name: checking if the container is running
         if: always()
         run: |
+          sleep 30
           docker ps
           docker ps -a
 
