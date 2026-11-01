@@ -22,7 +22,7 @@ jobs:
       - name: checking if the container is running
         if: always()
         run: |
-          sleep 30
+          sleep 15
           docker ps
           docker ps -a
           docker logs python-app
