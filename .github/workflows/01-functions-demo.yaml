@@ -65,6 +65,9 @@ jobs:
       
     runs-on: ubuntu-latest
     steps:
+      - name: code-checkout
+        uses: actions/checkout@v5
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
@@ -75,12 +78,13 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: false
           tags: |
-            ${{ env.REPO_URL}}/${{ env.IMAGE_TAG }}:latest
-            ${{ env.REPO_URL}}/${{ env.IMAGE_TAG }}:${{ env.VERSION }}
+            ${{ env.REPO_URL}}${{ env.IMAGE_TAG }}:latest
+            ${{ env.REPO_URL}}${{ env.IMAGE_TAG }}:${{ env.VERSION }}
 
       - name: running-container
         run: |
-          docker run -d -p 8080:8080 --name vprofile-container ${{ env.REPO_URL}}/${{ env.IMAGE_TAG }}:${{ env.VERSION }}
+          docker images
+          docker run -d -p 8080:8080 --name vprofile-container ${{ env.REPO_URL}}${{ env.IMAGE_TAG }}:${{ env.VERSION }}
 
       - name: smoke-test
         run: |
