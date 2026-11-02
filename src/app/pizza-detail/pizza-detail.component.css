@@ -1,0 +1,208 @@
+.detail-page {
+  min-height: 100vh;
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  transition: var(--transition);
+}
+
+.detail-card {
+  max-width: 42rem;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  transition: var(--transition);
+}
+
+.hero-image {
+  position: relative;
+  height: 18rem;
+  overflow: hidden;
+  background: var(--color-surface-raised);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--color-surface) 5%, transparent 55%);
+}
+
+.back-btn {
+  position: absolute !important;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(0, 0, 0, 0.45) !important;
+  color: white !important;
+  backdrop-filter: blur(4px);
+}
+
+.veg-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+}
+
+.veg-badge.veg {
+  background: rgba(34, 197, 94, 0.25);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.5);
+}
+
+html.light-theme .veg-badge.veg {
+  background: rgba(22, 163, 74, 0.12);
+  color: #16a34a;
+  border-color: rgba(22, 163, 74, 0.4);
+}
+
+.veg-badge.nonveg {
+  background: rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
+html.light-theme .veg-badge.nonveg {
+  background: rgba(220, 38, 38, 0.12);
+  color: #dc2626;
+  border-color: rgba(220, 38, 38, 0.4);
+}
+
+.detail-body {
+  padding: 1.75rem 2rem 2rem;
+}
+
+.detail-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.4rem;
+  line-height: 1.2;
+}
+
+.detail-subtitle {
+  color: var(--color-text-secondary);
+  margin-bottom: 1.25rem;
+  font-size: 0.95rem;
+}
+
+.attr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.attr-item {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 0.875rem;
+  transition: var(--transition);
+}
+
+.attr-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 0.2rem;
+}
+
+.attr-value {
+  color: var(--color-text-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.detail-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.price-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.cart-btn {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%) !important;
+  color: white !important;
+  border-radius: var(--radius-btn) !important;
+  padding: 0 2rem !important;
+  height: 48px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 16px var(--color-primary-glow) !important;
+}
+
+.not-found {
+  text-align: center;
+  padding: 6rem 0;
+}
+
+.back-link {
+  margin-top: 1.5rem !important;
+  border-radius: var(--radius-btn) !important;
+  border-color: var(--color-border-hover) !important;
+  color: var(--color-text-secondary) !important;
+}
+
+
+.price-value {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #f4a261;
+}
+
+.cart-btn {
+  background: linear-gradient(135deg, #14b8a6 0%, #2dd4bf 100%) !important;
+  color: white !important;
+  border-radius: 999px !important;
+  padding: 0 2rem !important;
+  height: 48px !important;
+  font-size: 1rem !important;
+}
+
+.not-found {
+  text-align: center;
+  padding: 6rem 0;
+}
+
+.back-link {
+  margin-top: 1.5rem !important;
+  border-radius: 999px !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #9ca3af !important;
+}
+
+.pizza-card {
+  max-width: 450px;
+  margin: 2px;
+}
+
+.pizza-back-btn{
+	display: flex;
+	justify-content: flex-end;
+}
