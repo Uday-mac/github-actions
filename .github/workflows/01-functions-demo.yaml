@@ -46,7 +46,7 @@ jobs:
 
   Testing:
     runs-on: ubuntu-latest
-    needs: build-job
+    needs: security-scan
     steps:
       - name: code-checkout
         uses: actions/checkout@v5
@@ -62,7 +62,7 @@ jobs:
       REPO_URL: "821643762246.dkr.ecr.us-east-1.amazonaws.com/"
       IMAGE_TAG: "githubaction/vprofile"
       VERSION: "${{ github.run_number }}"
-      
+    needs: Testing
     runs-on: ubuntu-latest
     steps:
       - name: code-checkout
