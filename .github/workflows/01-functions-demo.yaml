@@ -1,6 +1,8 @@
 name: vprofile-CI-CD
 on:
   workflow_dispatch:
+permissions:
+  contents: read
 jobs:
   build-job:
     runs-on: ubuntu-latest
@@ -10,6 +12,35 @@ jobs:
 
       - name: maven-build
         run: mvn install
+
+      - name: upload-artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: vprofile-app
+          path: target/*.war
+  security-scan:
+    needs: build-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout-code
+        uses: actions/checkout@v5
+
+      - name: trivy-scan
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: 'fs'
+          scan-ref: .
+          exit-code: 0
+          format: 'json'
+          output: 'trivy-results.json'
+          vuln-type: 'os,library'
+          severity: HIGH,CRITICAL
+
+      - name: upload-scan-results
+        uses: actions/upload-artifact@v7
+        with:
+          name: vprofile-trivy-scan-reports
+          path: trivy-results.json
 
   Testing:
     runs-on: ubuntu-latest
