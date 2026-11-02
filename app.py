@@ -10,7 +10,6 @@ def home():
         "message": "Welcome cloud with uday",
         "platform": "Github actions",
         "runtime": "Docker+flask"
-        "version": os.getenv("APP_VERSION", "1.0.0")
     })
 
 @app.route("/health")

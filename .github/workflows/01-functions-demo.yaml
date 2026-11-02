@@ -1,59 +1,44 @@
-name: Flask build test publish workflow
-
-on:    
-  pull_request:
-
-    branches:
-      - main
-
-    types: 
-      - opened
-      - synchronize
+name: environment-demo
+on:
   workflow_dispatch:
-
 env:
-  APPLICATION_NAME: gitactions    
-     
+  APPLICATION_NAME: gitactions
+  VERSION: v1.0.1
 jobs:
-  python-flask-build-test:
+  build-job:
     runs-on: ubuntu-latest
-    if: ${{ (github.event_name == 'push' && startsWith(github.ref_name, 'main')) || (github.event_name == 'pull_request' &&  github.base_ref == 'main' && !contains(github.event.pull_request.title, 'WIP')) }}
-
     steps:
-      - name: checkout code
+      - name: checkout-code
         uses: actions/checkout@v5
 
-      - name: generating dynamic tag
-        run: echo "IMAGE_TAG=v${GITHUB_RUN_NUMBER}-${GITHUB_SHA::7}" >> $GITHUB_ENV
-
-      - name: login into docker
-        uses: docker/login-action@v4
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
-      - name: build image
-        uses: docker/build-push-action@v6
+      - name: build-image
+        uses: docker/build-push-action@v7
         with:
           context: .
           push: false
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ env.IMAGE_TAG }}
-          
-      - name: running the container
-        run: |
-          docker run -d -p 5000:5000 --name test-flask ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ env.IMAGE_TAG }}
+          tags: ${{ vars.DOCKERHUB_USERNAME}}/${{ env.APPLICATION_NAME}}:${{ env.VERSION }}
 
-      - name: push docker image
-        if: ${{ success() }}
+      - name: run-container
         run: |
-         docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APPLICATION_NAME }}:${{ env.IMAGE_TAG }}
+          docker run -d -p 5000:5000 --name test-app ${{ vars.DOCKERHUB_USERNAME}}/${{ env.APPLICATION_NAME}}:${{ env.VERSION }}
 
-      - name: Collect container logs
-        if: ${{ failure() }}
+      - name: smoke-test
         run: |
-          docker logs test-flask
+          sleep 5
+          curl -f http://localhost:5000
 
-      - name: clean up
-        if: ${{ always() }}
-        run: |
-          docker rm -f test-flask
+      - name: push-image
+        if: sucess()
+        uses: docker/build-push-action@v7
+        with:
+          push: true
+          tags: ${{ vars.DOCKERHUB_USERNAME}}/${{ env.APPLICATION_NAME}}:${{ env.VERSION }}
+  dev-deploy:
+    needs: build-job
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps: 
+      - name: testing-env
+        
+      
